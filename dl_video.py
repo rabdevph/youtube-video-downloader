@@ -1,6 +1,6 @@
 '''
 • readme file
-• validation or error trapping
+• requirements.txt
 '''
 import sys
 from pathlib import Path
@@ -20,22 +20,32 @@ def progress_check(chunk = None, file_handle = None, remaining = None):
     sys.stdout.write(f' ↳ |{status}| {percent}%\r')
     sys.stdout.flush()
 
+
 def main():
-    download_path = Path.home() / 'Downloads'
-
-    video_url = input('Video URL: ')
-    video = YouTube(video_url, on_progress_callback=progress_check)
-
-    video_size = video.streams.get_highest_resolution().filesize
     global file_size
-    file_size = video_size
 
-    print(f'\nTitle: {video.title}')
-    print('\nDownloading...')
+    download_path = Path.home() / 'Downloads'
+    
+    print("Enter 'q' to quit.")
+    video_url = input('Video URL: ')
 
-    yt = video.streams.get_highest_resolution()
-    yt.download(download_path)
-    print(f'\n\nDownload complete.\nVideo saved to {download_path}.')
+    if video_url == 'q':
+        sys.exit()
+
+    try:
+        video = YouTube(video_url, on_progress_callback=progress_check)
+        video_size = video.streams.get_highest_resolution().filesize
+        file_size = video_size
+
+        print(f'\nTitle: {video.title}')
+        print('\nDownloading...')
+
+        yt = video.streams.get_highest_resolution()
+        yt.download(download_path)
+        print(f'\n\nDownload complete.\nVideo saved to {download_path}.')
+    except:
+        print('Invalid URL.')
+
 
 if __name__ == '__main__':
     main()
