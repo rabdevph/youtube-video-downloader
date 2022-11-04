@@ -12,8 +12,7 @@ def download_video(url):
     video = YouTube(url)
     print()
     time_date_suffix = datetime.now().strftime("_%y%m%d_%H%M%S")
-    pl_title = video.title.replace(" ", "_")
-    folder_name = pl_title + time_date_suffix
+    folder_name = 'YT_Download' + time_date_suffix
     file_path = Path.home() / 'Downloads' / folder_name
 
     if not file_path.is_dir():
